@@ -26,8 +26,8 @@ class Searcher:
                 features = [float(x) for x in row[1:]]
                 features = np.array(features)
                 d = euclid_distance(features, queryFeatures)
-                print("{}: {}".format(row[0], d))
                 results[row[0]] = max(d)
+                print("{}: {} --> Max: {}".format(row[0], d, results[row[0]]))
 
             f.close()
         results = sorted([(v, k) for (k, v) in results.items()])

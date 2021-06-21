@@ -38,6 +38,12 @@ class ColorDescriptor:
         histB = np.histogram(img[0:, 0:, 0], bins=self.bins[0], range=[0, 256])
         histG = np.histogram(img[0:, 0:, 1], bins=self.bins[1], range=[0, 256])
         histR = np.histogram(img[0:, 0:, 2], bins=self.bins[2], range=[0, 256])
+        # print("Hist B: ")
+        # print(histB)
+        # print("Hist G: ")
+        # print(histB)
+        # print("Hist R: ")
+        # print(histB)
         hist.extend(histB[0])
         hist.extend(histG[0])
         hist.extend(histR[0])
@@ -45,7 +51,9 @@ class ColorDescriptor:
 
     def hist2dv2(self, image):
         hist = []
+        # name = ['Hist B', 'Hist G', 'Hist R']
         for i in range(3):
+            # print(name[i])
             n = 0.0
             n = 256 / self.bins[i]
             list_range = [0]
@@ -53,6 +61,8 @@ class ColorDescriptor:
                 list_range.append(n * (x + 1))
             temp = []
             for x in range(len(list_range) - 1):
-                temp.append(process2d(image[0:, 0:, i].flatten(), list_range[x], list_range[x + 1]))
+                count = process2d(image[0:, 0:, i].flatten(), list_range[x], list_range[x + 1])
+                temp.append(count)
+                # print("{}..{} : {}".format(list_range[x], list_range[x+1], count))
             hist.extend(temp)
         return normalized(hist)

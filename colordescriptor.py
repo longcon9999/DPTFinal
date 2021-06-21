@@ -47,7 +47,6 @@ class ColorDescriptor:
         hist.extend(histB[0])
         hist.extend(histG[0])
         hist.extend(histR[0])
-        print(hist)
         return normalized(hist)
 
     def hist2dv2(self, image):

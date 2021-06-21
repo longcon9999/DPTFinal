@@ -21,7 +21,8 @@ def index():
     content = []
     for file in glob.glob("static/queries/*.png"):
         content.append(file)
-    return render_template('index.html', result=content)
+    print(content)
+    return render_template('index.html', queries=content)
 
 
 @app.route('/search', methods=['POST'])
@@ -33,14 +34,19 @@ def search():
         try:
             cd = ColorDescriptor((10, 12, 4))
             query = io.imread(image_url)
+            # (h, w, d)
             if query.shape[2] == 4:
                 (r, g, b, a) = cv2.split(query)
             else:
                 (r, g, b) = cv2.split(query)
             query = cv2.merge([b, g, r])
             features = cd.describe2d(query)
+            # print(features)
             searcher = Searcher(INDEX)
             results = searcher.search(features)
+            for (score, resultID) in results:
+                print("{} : {}".format(resultID, score))
+
             for (score, resultID) in results[:10]:
                 RESULTS_ARRAY.append(
                     {"image": str(resultID), "score": str(score)})
